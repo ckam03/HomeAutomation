@@ -1,14 +1,15 @@
 import os, uuid, httpx
-
+from client import Client
 from device_state import DeviceState
 
 
-class GoveeClient:
+class GoveeClient(Client):
     def __init__(self, headers) -> None:
         self.headers = headers
 
     async def on_or_off(self, state: str):
-        on_or_off = DeviceState[state]
+        value = DeviceState.ON if state == "on" else DeviceState.OFF
+
         request_id = str(uuid.uuid4())
 
         api_request = {
@@ -19,7 +20,7 @@ class GoveeClient:
                 "capability": {
                     "type": "devices.capabilities.on_off",
                     "instance": "powerSwitch",
-                    "value": on_or_off.value,  # 0 for off, 1 for on
+                    "value": value.value,  # 0 for off, 1 for on
                 },
             },
         }
