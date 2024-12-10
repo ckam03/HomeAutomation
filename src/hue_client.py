@@ -5,7 +5,7 @@ class HueClient:
     def __init__(self, headers) -> None:
         self.headers = headers
 
-    async def on_or_off(self, state: bool):
+    async def on_or_off(self, state: bool) -> dict:
 
         light_state = True if state == "on" else False
         api_request = {"on": {"on": light_state}}

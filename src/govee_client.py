@@ -7,7 +7,7 @@ class GoveeClient(Client):
     def __init__(self, headers) -> None:
         self.headers = headers
 
-    async def on_or_off(self, state: str):
+    async def on_or_off(self, state: str) -> dict:
         value = DeviceState.ON if state == "on" else DeviceState.OFF
 
         request_id = str(uuid.uuid4())
@@ -27,7 +27,7 @@ class GoveeClient(Client):
 
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                os.getenv("GOVEE_DEVICE_CONTROL"),
+                url=os.getenv("GOVEE_DEVICE_CONTROL"),
                 headers=self.headers,
                 json=api_request,
             )
